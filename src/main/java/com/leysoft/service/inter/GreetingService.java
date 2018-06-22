@@ -1,6 +1,8 @@
 package com.leysoft.service.inter;
 
+import com.leysoft.dto.GreetingResponse;
+
 public interface GreetingService {
 	
-	public String greeting(String name);
+	public GreetingResponse greeting(String name);
 }
