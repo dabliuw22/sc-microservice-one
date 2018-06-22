@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RefreshScope
 @RestController
-@RequestMapping(value = "/init")
+@RequestMapping(value = {"/init"})
 public class InitController {
 	
 	@Value(value = "${properties.example}")
