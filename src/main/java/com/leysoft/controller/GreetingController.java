@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.leysoft.dto.GreetingRequest;
 import com.leysoft.dto.GreetingResponse;
 import com.leysoft.service.inter.GreetingService;
 
@@ -18,6 +19,8 @@ public class GreetingController {
 	
 	@GetMapping(value = {"/{name}"})
 	public GreetingResponse greeting(@PathVariable(name = "name") String name) {
-		return greetingService.greeting(name);
+		GreetingRequest request = new GreetingRequest();
+		request.setName(name);
+		return greetingService.greeting(request);
 	}
 }

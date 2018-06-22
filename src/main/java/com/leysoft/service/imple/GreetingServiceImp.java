@@ -27,9 +27,7 @@ public class GreetingServiceImp implements GreetingService {
 					@HystrixProperty(name = "metrics.rollingStats.timeInMilliseconds", value = "10000"),
 			})
 	@Override
-	public GreetingResponse greeting(String name) {
-		GreetingRequest request = new GreetingRequest();
-		request.setName(name);
+	public GreetingResponse greeting(GreetingRequest request) {
 		return restTemplate.postForObject(GREETING_SERVICE_URL, request, GreetingResponse.class);
 	}
 	
