@@ -18,7 +18,7 @@ public class GreetingServiceImp implements GreetingService {
 	
 	private static final String GREETING_SERVICE_URL = "http://microservice-two/greeting";
 	
-	@HystrixCommand(fallbackMethod = "greetingFallback", 
+	@HystrixCommand(fallbackMethod = "greetingFallback", commandKey = "GreetingService.greeting",
 			commandProperties = {
 					@HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "500"),
 					@HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "10"),
