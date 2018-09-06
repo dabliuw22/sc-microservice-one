@@ -1,3 +1,4 @@
+
 package com.leysoft.controller;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -9,14 +10,18 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RefreshScope
 @RestController
-@RequestMapping(value = {"/init"})
+@RequestMapping(
+        value = {
+            "/init"
+        })
 public class InitController {
-	
-	@Value(value = "${properties.example}")
-	private String exampleProperty;
-	
-	@GetMapping
-	public ResponseEntity<String> init() {
-		return ResponseEntity.ok().body(exampleProperty);
-	}
+
+    @Value(
+            value = "${properties.example}")
+    private String exampleProperty;
+
+    @GetMapping
+    public ResponseEntity<String> init() {
+        return ResponseEntity.ok().body(exampleProperty);
+    }
 }
