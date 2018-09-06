@@ -12,6 +12,7 @@ Microservicio que obtiene el refresh de sus propiedades con RabbitMQ (AMQP) y ut
 	* Actuator.
 	* Cloud Config: Config Client.
 	* Cloud Discovery: Eureka Discovery.
+	* Cloud Routing: Ribbon, Feign.
 	* Circuit Breaker: Hystrix, Hystrix Dashboard
 	* Spring Bus AMQP.
 	* Spring Web.
@@ -118,4 +119,10 @@ public class GreetingServiceImp implements GreetingService {
 		return response;
 	}
 }
+```
+10. Habilitar Hystrix para FeignClient par el microservice-one en *microservice-one.yml* de (sb-config-repo)[https://github.com/dabliuw22/sc-config-repo]:
+```[yml]
+feign:
+  hystrix:
+	enabled: true
 ```

@@ -1,3 +1,4 @@
+
 package com.leysoft.configuration;
 
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -8,10 +9,10 @@ import org.springframework.web.client.RestTemplate;
 
 @Configuration
 public class AppConfiguration {
-	
-	@Bean
-	@LoadBalanced
-	public RestTemplate restTemplate(RestTemplateBuilder builder) {
-		return builder.build();
-	} 
+
+    @Bean
+    @LoadBalanced
+    public RestTemplate restTemplate(RestTemplateBuilder builder) {
+        return builder.build();
+    }
 }

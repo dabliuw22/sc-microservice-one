@@ -1,3 +1,4 @@
+
 package com.leysoft.service.imple;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,28 +13,40 @@ import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 
 @Service
 public class GreetingServiceImp implements GreetingService {
-	
-	@Autowired
-	private RestTemplate restTemplate;
-	
-	private static final String GREETING_SERVICE_URL = "http://microservice-two/greeting";
-	
-	@HystrixCommand(fallbackMethod = "greetingFallback", commandKey = "GreetingService.greeting",
-			commandProperties = {
-					@HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "500"),
-					@HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "10"),
-					@HystrixProperty(name = "circuitBreaker.errorThresholdPercentage", value = "30"),
-					@HystrixProperty(name = "circuitBreaker.sleepWindowInMilliseconds", value = "10000"),
-					@HystrixProperty(name = "metrics.rollingStats.timeInMilliseconds", value = "10000"),
-			})
-	@Override
-	public GreetingResponse greeting(GreetingRequest request) {
-		return restTemplate.postForObject(GREETING_SERVICE_URL, request, GreetingResponse.class);
-	}
-	
-	public GreetingResponse greetingFallback(GreetingRequest request) {
-		GreetingResponse response = new GreetingResponse();
-		response.setMessage(request.getName() + ", an error occurred");
-		return response;
-	}
+
+    @Autowired
+    private RestTemplate restTemplate;
+
+    private static final String GREETING_SERVICE_URL = "http://microservice-two/greeting";
+
+    @HystrixCommand(
+            fallbackMethod = "greetingFallback",
+            commandKey = "GreetingService.greeting",
+            commandProperties = {
+                @HystrixProperty(
+                        name = "execution.isolation.thread.timeoutInMilliseconds",
+                        value = "500"),
+                @HystrixProperty(
+                        name = "circuitBreaker.requestVolumeThreshold",
+                        value = "10"),
+                @HystrixProperty(
+                        name = "circuitBreaker.errorThresholdPercentage",
+                        value = "30"),
+                @HystrixProperty(
+                        name = "circuitBreaker.sleepWindowInMilliseconds",
+                        value = "10000"),
+                @HystrixProperty(
+                        name = "metrics.rollingStats.timeInMilliseconds",
+                        value = "10000"),
+            })
+    @Override
+    public GreetingResponse greeting(GreetingRequest request) {
+        return restTemplate.postForObject(GREETING_SERVICE_URL, request, GreetingResponse.class);
+    }
+
+    public GreetingResponse greetingFallback(GreetingRequest request) {
+        GreetingResponse response = new GreetingResponse();
+        response.setMessage(request.getName() + ", an error occurred");
+        return response;
+    }
 }
