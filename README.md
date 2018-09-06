@@ -27,7 +27,7 @@ Microservicio que obtiene el refresh de sus propiedades con RabbitMQ (AMQP) y ut
 		compile('org.springframework.cloud:spring-cloud-starter-netflix-hystrix')
 		compile('org.springframework.cloud:spring-cloud-starter-netflix-hystrix-dashboard')
 		compile('org.springframework.cloud:spring-cloud-starter-netflix-ribbon')
-		//compile('org.springframework.cloud:spring-cloud-starter-openfeign')
+		compile('org.springframework.cloud:spring-cloud-starter-openfeign')
 		//compile('org.springframework.cloud:spring-cloud-starter-sleuth')
 		//compile('org.springframework.cloud:spring-cloud-starter-zipkin')
 		testCompile('org.springframework.boot:spring-boot-starter-test')
@@ -120,7 +120,8 @@ public class GreetingServiceImp implements GreetingService {
 	}
 }
 ```
-10. Habilitar Hystrix para FeignClient par el microservice-one en *microservice-one.yml* de [https://github.com/dabliuw22/sc-config-repo](sb-config-repo):
+
+10. Habilitar Hystrix para FeignClient par el microservice-one en *microservice-one.yml* de [sb-config-repo](https://github.com/dabliuw22/sc-config-repo):
 ```[yml]
 feign:
   hystrix:
