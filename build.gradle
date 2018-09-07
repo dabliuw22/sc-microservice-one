@@ -30,6 +30,8 @@ ext {
 }
 
 dependencies {
+	compile('io.springfox:springfox-swagger-ui:2.9.2')
+	compile('io.springfox:springfox-swagger2:2.9.2')
 	compile('org.springframework.boot:spring-boot-starter-actuator')
 	compile('org.springframework.boot:spring-boot-starter-web')
 	compile('org.springframework.cloud:spring-cloud-starter-bus-amqp')

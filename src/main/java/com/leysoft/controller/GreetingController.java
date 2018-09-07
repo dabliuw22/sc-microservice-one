@@ -17,6 +17,13 @@ import com.leysoft.dto.MessageResponse;
 import com.leysoft.service.inter.GreetingService;
 import com.leysoft.service.inter.SenderService;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+
+@Api
 @RestController
 @RequestMapping(
         value = {
@@ -37,8 +44,22 @@ public class GreetingController {
             value = {
                 "/{name}"
             })
-    public GreetingResponse greeting(@PathVariable(
-            name = "name") String name) {
+    @ApiOperation(
+            value = "Greeting Operation",
+            nickname = "greeting",
+            httpMethod = "GET")
+    @ApiResponses(
+            value = {
+                @ApiResponse(
+                        code = 200,
+                        message = "Success")
+            })
+    public GreetingResponse greeting(@ApiParam(
+            name = "name",
+            required = true,
+            type = "String",
+            example = "MyName") @PathVariable(
+                    name = "name") String name) {
         GreetingRequest request = new GreetingRequest();
         request.setName(name);
         return greetingService.greeting(request);
@@ -48,15 +69,42 @@ public class GreetingController {
             value = {
                 "/feign/{name}"
             })
-    public GreetingResponse greetingFeing(@PathVariable(
-            name = "name") String name) {
+    @ApiOperation(
+            value = "Greeting Feign Operation",
+            nickname = "greeting-feign",
+            httpMethod = "GET")
+    @ApiResponses(
+            value = {
+                @ApiResponse(
+                        code = 200,
+                        message = "Success")
+            })
+    public GreetingResponse greetingFeign(@ApiParam(
+            name = "name",
+            required = true,
+            type = "String",
+            example = "MyName") @PathVariable(
+                    name = "name") String name) {
         GreetingRequest request = new GreetingRequest();
         request.setName(name);
         return feignClient.greeting(request);
     }
 
     @PostMapping
-    public MessageResponse message(@RequestBody MessageRequest request) {
+    @ApiOperation(
+            value = "Message Operation",
+            nickname = "message",
+            httpMethod = "POST")
+    @ApiResponses(
+            value = {
+                @ApiResponse(
+                        code = 200,
+                        message = "Success")
+            })
+    public MessageResponse message(@ApiParam(
+            name = "request",
+            required = true,
+            type = "MessageRequest") @RequestBody MessageRequest request) {
         boolean isSender = senderService.send(request);
         MessageResponse response = new MessageResponse();
         String message =

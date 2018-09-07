@@ -16,9 +16,12 @@ Microservicio que obtiene el refresh de sus propiedades con RabbitMQ (AMQP) y ut
 	* Circuit Breaker: Hystrix, Hystrix Dashboard
 	* Spring Bus AMQP.
 	* Spring Web.
+	* Swagger.
 
 ```
 	dependencies {
+		compile('io.springfox:springfox-swagger-ui:2.9.2')
+		compile('io.springfox:springfox-swagger2:2.9.2')
 		compile('org.springframework.boot:spring-boot-starter-actuator')
 		compile('org.springframework.cloud:spring-cloud-starter-bus-amqp')
 		compile('org.springframework.boot:spring-boot-starter-web')
@@ -127,3 +130,5 @@ feign:
   hystrix:
 	enabled: true
 ```
+
+11. Verificar Swagger: *http://localhost:8070/swagger-ui.html* o *http://localhost:9090/microservice-one/swagger-ui.html*
