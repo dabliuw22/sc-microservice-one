@@ -10,6 +10,8 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.messaging.Processor;
 
+import com.leysoft.service.inter.CustomMessageSource;
+
 @EnableFeignClients(
         value = {
             "com.leysoft.client"
@@ -20,7 +22,7 @@ import org.springframework.cloud.stream.messaging.Processor;
 @SpringBootApplication
 @EnableBinding(
         value = {
-            Processor.class
+            Processor.class, CustomMessageSource.class
         })
 public class ScMicroserviceOneApplication {
 

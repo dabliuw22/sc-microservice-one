@@ -105,7 +105,7 @@ public class GreetingController {
             name = "request",
             required = true,
             type = "MessageRequest") @RequestBody MessageRequest request) {
-        boolean isSender = senderService.send(request);
+        boolean isSender = senderService.sendCustomMessageSource(request);
         MessageResponse response = new MessageResponse();
         String message =
                 isSender ? request.getMessage() + " exitoso" : request.getMessage() + " fallido";

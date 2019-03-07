@@ -9,6 +9,7 @@ import org.springframework.integration.support.MessageBuilder;
 import org.springframework.stereotype.Service;
 
 import com.leysoft.dto.MessageRequest;
+import com.leysoft.service.inter.CustomMessageSource;
 import com.leysoft.service.inter.SenderService;
 
 @Service
@@ -19,11 +20,18 @@ public class SenderServiceImp implements SenderService {
     @Autowired
     private Source source;
 
+    @Autowired
+    private CustomMessageSource customMessageSource;
+
     @Override
     public boolean send(MessageRequest message) {
-        String info = "send message: " + message.getMessage();
-        LOGGER.info(info);
+        LOGGER.info("send message: {}", message.getMessage());
         return source.output().send(MessageBuilder.withPayload(message).build());
     }
 
+    @Override
+    public boolean sendCustomMessageSource(MessageRequest message) {
+        LOGGER.info("send message: {}", message.getMessage());
+        return customMessageSource.output().send(MessageBuilder.withPayload(message).build());
+    }
 }
