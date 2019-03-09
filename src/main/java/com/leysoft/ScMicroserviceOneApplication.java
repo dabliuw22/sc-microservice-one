@@ -8,7 +8,9 @@ import org.springframework.cloud.netflix.hystrix.EnableHystrix;
 import org.springframework.cloud.netflix.hystrix.dashboard.EnableHystrixDashboard;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.cloud.stream.annotation.EnableBinding;
-import org.springframework.cloud.stream.messaging.Processor;
+import org.springframework.cloud.stream.messaging.Source;
+
+import com.leysoft.service.inter.CustomMessageSource;
 
 @EnableFeignClients(
         value = {
@@ -20,7 +22,7 @@ import org.springframework.cloud.stream.messaging.Processor;
 @SpringBootApplication
 @EnableBinding(
         value = {
-            Processor.class
+            Source.class, CustomMessageSource.class
         })
 public class ScMicroserviceOneApplication {
 

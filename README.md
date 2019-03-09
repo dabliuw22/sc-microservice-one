@@ -4,8 +4,8 @@ Microservicio que obtiene el refresh de sus propiedades con RabbitMQ (AMQP) y ut
 
 1. Pre-Requisitos:
 	* Java >= 1.8.x
-	* Spring Boot 2.0.3.RELEASE
-	* Spring Cloud Finchley.RC2
+	* Spring Boot 2.1.3.RELEASE
+	* Spring Cloud Greenwich.RELEASE
 	* RabbitMQ
 
 2. Dependencias:
@@ -18,28 +18,15 @@ Microservicio que obtiene el refresh de sus propiedades con RabbitMQ (AMQP) y ut
 	* Spring Web.
 	* Swagger.
 
+3. Run RabbitMQ with Docker:
 ```
-	dependencies {
-		compile('io.springfox:springfox-swagger-ui:2.9.2')
-		compile('io.springfox:springfox-swagger2:2.9.2')
-		compile('org.springframework.boot:spring-boot-starter-actuator')
-		compile('org.springframework.cloud:spring-cloud-starter-bus-amqp')
-		compile('org.springframework.boot:spring-boot-starter-web')
-		compile('org.springframework.cloud:spring-cloud-starter-config')
-		compile('org.springframework.cloud:spring-cloud-starter-netflix-eureka-client')
-		compile('org.springframework.cloud:spring-cloud-starter-netflix-hystrix')
-		compile('org.springframework.cloud:spring-cloud-starter-netflix-hystrix-dashboard')
-		compile('org.springframework.cloud:spring-cloud-starter-netflix-ribbon')
-		compile('org.springframework.cloud:spring-cloud-starter-openfeign')
-		//compile('org.springframework.cloud:spring-cloud-starter-sleuth')
-		//compile('org.springframework.cloud:spring-cloud-starter-zipkin')
-		testCompile('org.springframework.boot:spring-boot-starter-test')
-	}
+docker image pull rabbitmq:3-management
+docker run -d --name rabbitmq -p 15672:15672 -p 5672:5672 -e RABBITMQ_DEFAULT_USER=guest -e RABBITMQ_DEFAULT_PASS=guest rabbitmq:3-management
 ```
 
-3. Anotar con *@EnableDiscoveryClient* a la clase de configuración.
+4. Anotar con `@EnableDiscoveryClient` a la clase de configuración.
 
-4. Definir beans en clase de configuración:
+5. Definir beans en clase de configuración:
 ```[java]
 @Configuration
 public class AppConfiguration {
@@ -52,7 +39,7 @@ public class AppConfiguration {
 }
 ```
 
-5. Anotar bean o componente con *@RefreshScope* donde queremos que las propiedades se actualicen:
+6. Anotar bean o componente con `@RefreshScope` donde queremos que las propiedades se actualicen:
 ```[java]
 @RefreshScope
 @RestController
@@ -69,7 +56,7 @@ public class InitController {
 }
 ```
  
-6.  Cambiar *application.properties* a *bootstrap.yml* y agregar:
+7.  Cambiar `application.properties` a `bootstrap.yml` y agregar:
  
  ```[yaml]
  spring:  
@@ -82,17 +69,17 @@ public class InitController {
         serviceId: config-server
  ```
  
-7. Para utilizar el refresh mediante colas de mensajes con RabitMQ debemos crear un WebHook con nuestro remoto, esto presenta dificultades cuando trabajamos con localhost. 
-Primero verificaremos el estado actual de la propiedad consumiendo en *GET http://localhost:8070/init*, luego realizaremos un cambio en la propiedad *${properties.example}* en *microservice-one.yml* y subiremos los cambios al remoto, luego simularemos un petición de un WebHook de la siguiente forma:
+8. Para utilizar el refresh mediante colas de mensajes con RabitMQ debemos crear un WebHook con nuestro remoto, esto presenta dificultades cuando trabajamos con localhost. 
+Primero verificaremos el estado actual de la propiedad consumiendo en `GET http://localhost:8070/init`, luego realizaremos un cambio en la propiedad `${properties.example}` en `microservice-one.yml` y subiremos los cambios al remoto, luego simularemos un petición de un WebHook de la siguiente forma:
  
  ```
  curl -H "X-Github-Event: push" -H "Content-Type: application/json" -X POST -d '{"commits": [{"modified": ["microservice-one.yml"]}]}' http://localhost:8888/monitor
  ```
-Más tarde podremos verificar *GET http://localhost:8070/init* con nuestro cliente Postman que los cambios se realizaron.
+Más tarde podremos verificar `GET http://localhost:8070/init` con nuestro cliente Postman que los cambios se realizaron.
 
-8. Anotar con *@EnableHystrix* y *@EnableHystrixDashboard* para habilitar el patron circuit breaker y la dashboard de hystrix.
+9. Anotar con *@EnableHystrix* y `@EnableHystrixDashboard` para habilitar el patron circuit breaker y la dashboard de hystrix.
 
-9. Anotar método donde se utilizara el patron circuit breaker con *@HystrixCommand* (Esto solo se puede hacer en clases anotadas con *@Component* o *@Service*)
+10. Anotar método donde se utilizara el patron circuit breaker con `@HystrixCommand` (Esto solo se puede hacer en clases anotadas con `@Component` o `@Service`)
 
 ```[java]
 @Service
@@ -124,11 +111,11 @@ public class GreetingServiceImp implements GreetingService {
 }
 ```
 
-10. Habilitar Hystrix para FeignClient par el microservice-one en *microservice-one.yml* de [sb-config-repo](https://github.com/dabliuw22/sc-config-repo):
+11. Habilitar Hystrix para FeignClient par el microservice-one en `microservice-one.yml` de [sb-config-repo](https://github.com/dabliuw22/sc-config-repo):
 ```[yml]
 feign:
   hystrix:
 	enabled: true
 ```
 
-11. Verificar Swagger: *http://localhost:8070/swagger-ui.html* o *http://localhost:9090/microservice-one/swagger-ui.html*
+12. Verificar Swagger: `http://localhost:8070/swagger-ui.html` o `http://localhost:9090/microservice-one/swagger-ui.html`

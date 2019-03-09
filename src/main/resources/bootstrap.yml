@@ -5,4 +5,4 @@ spring:
     config:
       discovery:
         enabled: true
-        serviceId: config-server
+        service-id: config-server
